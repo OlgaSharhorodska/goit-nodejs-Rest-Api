@@ -15,7 +15,7 @@ router.get('/', getAll);
 
 // router.get('/:contactId',getById)
 
-// router.post('/', isEmptyBody, addNewContact);
+router.post('/', isEmptyBody, addNewContact);
 
 // router.delete('/:contactId', deleteById)
 
