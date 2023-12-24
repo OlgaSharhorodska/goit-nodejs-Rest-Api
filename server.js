@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import app from './app.js';
+import { DB_HOST } from './config.js';
 
-const DB_HOST =
-  'mongodb+srv://Olga:TdJEvSLYSRGssePw@cluster0.ulousdv.mongodb.net/contacts?retryWrites=true&w=majority';
+const { DB_HOST, PORT = 3000 } = process.env;
+
 mongoose.connect(DB_HOST).then(() => {
-  app.listen(3000, () => {
+  app.listen(PORT, () => {
     console.log('Database connection successful');
   });
 }).catch(error=>{
