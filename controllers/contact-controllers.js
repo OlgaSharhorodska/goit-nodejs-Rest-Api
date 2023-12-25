@@ -38,33 +38,33 @@ export const addNewContact = async (req, res, next) => {
   }
 };
 
-// export const updateById = async (req, res, next) => {
-//   try {
-//     const { error } = contactUpdateSchema.validate(req.body);
-//     if (error) {
-//       throw HttpError(400, error.message);
-//       }
-//       const { contactId } = req.params;
-//     const result = await contactsService.updateContact(contactId, req.body);
-//       if (!result) {
-//        throw HttpError(404, 'Not found');
-//       }
-//       res.json(result);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+export const updateById = async (req, res, next) => {
+  try {
+    const { error } = contactUpdateSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, error.message);
+      }
+      const { contactId } = req.params;
+    const result = await Contact.findByIdAndUpdate(contactId, req.body);
+      if (!result) {
+       throw HttpError(404, 'Not found');
+      }
+      res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// export const deleteById = async (req, res, next) => {
-//     try {
-//       const { contactId } = req.params;
-//     const result = await contactsService.removeContact(contactId);
-//     if (!result) {
-//       throw HttpError(404, `not found`);
-//         }
-//         res.json({ message: 'contact deleted' });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+export const deleteById = async (req, res, next) => {
+    try {
+      const { contactId } = req.params;
+    const result = await Contact.findByIdAndDelete(contactId);
+    if (!result) {
+      throw HttpError(404, `not found`);
+        }
+        res.json({ message: 'contact deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
 

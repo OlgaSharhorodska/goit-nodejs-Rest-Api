@@ -18,8 +18,10 @@ router.get('/:contactId',isValidId, getById)
 
 router.post('/', isEmptyBody, addNewContact);
 
-// router.delete('/:contactId',isValidId, deleteById)
+router.delete('/:contactId',isValidId, deleteById)
 
-// router.put('/:contactId',isValidId, isEmptyBody, updateById);
+router.put('/:contactId', isValidId, isEmptyBody, updateById);
+
+router.patch('/:contactId/favorite', isValidId, isEmptyBody, updateById);
 
 export default router;
