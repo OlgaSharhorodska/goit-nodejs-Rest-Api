@@ -8,17 +8,18 @@ import {
 } from '../../controllers/contact-controllers.js';
 
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
+import isValidId from '../../middlewares/isValidId.js';
 
 const router = express.Router()
 
 router.get('/', getAll);
 
-// router.get('/:contactId',getById)
+router.get('/:contactId',isValidId, getById)
 
 router.post('/', isEmptyBody, addNewContact);
 
-// router.delete('/:contactId', deleteById)
+// router.delete('/:contactId',isValidId, deleteById)
 
-// router.put('/:contactId', isEmptyBody, updateById);
+// router.put('/:contactId',isValidId, isEmptyBody, updateById);
 
 export default router;

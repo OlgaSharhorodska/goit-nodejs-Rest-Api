@@ -12,18 +12,18 @@ export const getAll = async (req, res,next) => {
         }
 };
 
-// export const getById = async (req, res,next) => {
-//   try {
-//       const { contactId } = req.params;
-//       const result = await contactsService.getContactById(contactId);
-//       if (!result) {
-//           throw HttpError(404, `Not found`);
-//       }
-//       res.json(result);
-//   } catch (error) {
-//       next(error);
-//   }
-// };
+export const getById = async (req, res,next) => {
+  try {
+    const { contactId } = req.params;
+    const result = await Contact.findById(contactId);
+      if (!result) {
+          throw HttpError(404, `Not found`);
+      }
+      res.json(result);
+  } catch (error) {
+      next(error);
+  }
+};
 
 export const addNewContact = async (req, res, next) => {
     try {
