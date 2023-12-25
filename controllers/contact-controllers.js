@@ -55,6 +55,23 @@ export const updateById = async (req, res, next) => {
   }
 };
 
+export const updateStatusContact = async (req, res, next) => {
+  try {
+    const { error } = contactUpdateSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, 'missing field favorite');
+    }
+    const { contactId } = req.params;
+    const result = await Contact.findByIdAndUpdate(contactId, req.body);
+    if (!result) {
+      throw HttpError(404, 'Not found');
+    }
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteById = async (req, res, next) => {
     try {
       const { contactId } = req.params;

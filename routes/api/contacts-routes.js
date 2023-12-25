@@ -5,6 +5,7 @@ import {
   addNewContact,
   updateById,
   deleteById,
+  updateStatusContact,
 } from '../../controllers/contact-controllers.js';
 
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
@@ -22,6 +23,11 @@ router.delete('/:contactId',isValidId, deleteById)
 
 router.put('/:contactId', isValidId, isEmptyBody, updateById);
 
-router.patch('/:contactId/favorite', isValidId, isEmptyBody, updateById);
+router.patch(
+  '/:contactId/favorite',
+  isValidId,
+  isEmptyBody,
+  updateStatusContact
+);
 
 export default router;
