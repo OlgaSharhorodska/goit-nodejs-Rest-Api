@@ -1,6 +1,10 @@
 import Contact from '../models/Contact.js';
 import { HttpError } from '../helpers/index.js';
-import { contactAddSchema, contactUpdateSchema } from '../models/Contact.js';
+import {
+  contactAddSchema,
+  contactUpdateSchema,
+  contactUpdateFavoriteScheme,
+} from '../models/Contact.js';
 
 export const getAll = async (req, res,next) => {
     try {
@@ -57,7 +61,7 @@ export const updateById = async (req, res, next) => {
 
 export const updateStatusContact = async (req, res, next) => {
   try {
-    const { error } = contactUpdateSchema.validate(req.body);
+    const { error } = contactUpdateFavoriteScheme.validate(req.body);
     if (error) {
       throw HttpError(400, 'missing field favorite');
     }
