@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { handleSaveError, addUpdateSettings } from "./hooks";
+import { handleSaveError, addUpdateSettings } from "./hooks.js";
 import Joi from 'joi';
 
 const contactSchema = new Schema({
