@@ -10,8 +10,11 @@ import {
 
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
 import isValidId from '../../middlewares/isValidId.js';
+import authenticate from '../../middlewares/authenticate.js';
 
 const router = express.Router()
+
+router.use(authenticate);
 
 router.get('/', getAll);
 
