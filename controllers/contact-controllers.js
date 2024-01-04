@@ -7,8 +7,9 @@ import {
 } from '../models/Contact.js';
 
 export const getAll = async (req, res,next) => {
-    try {
-        const result = await Contact.find();
+  try {
+      const { _id: owner } = req.user;
+        const result = await Contact.find({owner});
         res.json(result);
     }
     catch (error){
@@ -18,8 +19,9 @@ export const getAll = async (req, res,next) => {
 
 export const getById = async (req, res,next) => {
   try {
-    const { contactId } = req.params;
-    const result = await Contact.findById(contactId);
+    const { contactId: _id } = req.params;
+    const { _id: owner } = req.user;
+    const result = await Contact.findOne({ _id, owner });
       if (!result) {
           throw HttpError(404, `Not found`);
       }
@@ -34,8 +36,9 @@ export const addNewContact = async (req, res, next) => {
         const {error} = contactAddSchema.validate(req.body);
         if (error) {
             throw HttpError(400, error.message);
-        }    
-    const result = await Contact.create(req.body) 
+      }    
+      const { _id: owner } = req.user;
+      const result = await Contact.create({...req.body, owner }) 
     res.status(201).json(result)    
   } catch (error) {
     next(error);
@@ -48,8 +51,9 @@ export const updateById = async (req, res, next) => {
     if (error) {
       throw HttpError(400, error.message);
       }
-      const { contactId } = req.params;
-    const result = await Contact.findByIdAndUpdate(contactId, req.body);
+         const { contactId: _id } = req.params;
+         const { _id: owner } = req.user;
+         const result = await Contact.findOneAndUpdate({ _id, owner },req.body);
       if (!result) {
        throw HttpError(404, 'Not found');
       }
@@ -81,8 +85,9 @@ export const updateStatusContact = async (req, res, next) => {
 
 export const deleteById = async (req, res, next) => {
     try {
-      const { contactId } = req.params;
-    const result = await Contact.findByIdAndDelete(contactId);
+         const { contactId: _id } = req.params;
+         const { _id: owner } = req.user;
+         const result = await Contact.findOneAndDelete({ _id, owner });
     if (!result) {
       throw HttpError(404, `not found`);
         }
