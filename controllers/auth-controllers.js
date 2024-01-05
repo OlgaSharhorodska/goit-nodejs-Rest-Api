@@ -7,7 +7,7 @@ import 'dotenv/config'
 
 const { JWT_SECRET } = process.env;
 
-const signup = async (req, res) => {
+const register = async (req, res) => {
     const { email,password } = req.body;
     const user = await User.findOne({email})
     if (user) {
@@ -18,13 +18,16 @@ const signup = async (req, res) => {
 
     const newUser = await User.create({ ...req.body, password: hashPassword });
     
-   res.json({
-     username: newUser.username,
-     email: newUser.email,
+   const { subscription } = newUser;
+   res.status(201).json({
+     user: {
+       email: newUser.email,
+       subscription,
+     },
    });
 }
 
-const signin = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -35,15 +38,19 @@ const signin = async (req, res) => {
     throw HttpError(401, 'Email or password is wrong');
   }
 
-  const { _id: id } = user;
+  const { _id: id, subscription } = user;
   const payload = {
     id,
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '23h' });
-    await User.findByIdAndUpdate(id, { token });
+  await User.findByIdAndUpdate(id, { token });
   res.json({
     token,
+    user: {
+      email,
+      subscription,
+    },
   });
 }
 
@@ -61,8 +68,8 @@ const logout = async (req, res) =>
 }
 
 export default {
-  signup: ctrlWrapper(signup),
-  signin: ctrlWrapper(signin),
+  register: ctrlWrapper(register),
+  login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
 };
