@@ -55,16 +55,22 @@ const login = async (req, res) => {
 }
 
 const getCurrent = async (req, res) => {
-    const { email } = req.user;
-    res.json({ email })
-};
+  const { email, subscription } = req.user;
+  if (!email || !subscription) {
+    throw HttpError(401, 'Not authorized');
+  }
+  res.json({
+    email,
+    subscription,
+  });
+}
 
 const logout = async (req, res) =>
 {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: '' });
-
-  res.json(204);
+  res.status(204).json();
+  
 }
 
 export default {
