@@ -47,8 +47,10 @@ export const addNewContact = async (req, res, next) => {
       await fs.rename(oldPath, newPath);
       const avatarURL = path.join("avatars", filename)
       const result = await Contact.create({...req.body,avatarURL, owner })
-      
-    res.status(201).json(result)    
+      if (!result) {
+        throw HttpError(401, 'Unauthorized');
+      }
+      res.status(201).json(result);   
   } catch (error) {
     next(error);
   }
