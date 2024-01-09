@@ -11,6 +11,7 @@ import {
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
 import isValidId from '../../middlewares/isValidId.js';
 import authenticate from '../../middlewares/authenticate.js';
+import upload from '../../middlewares/upload.js';
 
 const router = express.Router()
 
@@ -20,7 +21,7 @@ router.get('/', getAll);
 
 router.get('/:contactId',isValidId, getById)
 
-router.post('/', isEmptyBody, addNewContact);
+router.post('/',upload.single('avatar'), isEmptyBody, addNewContact);
 
 router.delete('/:contactId',isValidId, deleteById)
 
