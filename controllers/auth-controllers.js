@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken';
 import User from "../models/User.js";
 import { HttpError } from '../helpers/index.js';
 import ctrlWrapper from '../helpers/ctrlWrapper.js';
-import 'dotenv/config'
+import 'dotenv/config';
+import gravatar from 'gravatar';
 
 const { JWT_SECRET } = process.env;
 
