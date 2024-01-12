@@ -6,6 +6,7 @@ import { userSignupSchema, userSigninSchema } from '../../models/User.js';
 
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
 import isValidId from '../../middlewares/isValidId.js';
+import upload from '../../middlewares/upload.js';
 import  validateBody  from '../../helpers/validateBody.js';
 import authenticate from '../../middlewares/authenticate.js';
 
@@ -23,5 +24,7 @@ authRouter.post(
 authRouter.get('/current', authenticate, authControllers.getCurrent);
 
 authRouter.post('/logout', authenticate, authControllers.logout)
+
+authRouter.patch('/avatars', authenticate, upload.single('avatar'), authControllers.updateAvatar)
 
 export default authRouter;
