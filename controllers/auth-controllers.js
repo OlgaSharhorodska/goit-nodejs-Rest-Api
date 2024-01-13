@@ -10,7 +10,7 @@ import fs from 'fs/promises';
 import Jimp from 'jimp';
 
 const { JWT_SECRET } = process.env;
-const avatarsDir = path.join(__dirname, "../", "public", "avatars")
+const avatarsDir = path.resolve('public', 'avatars');
 
 const register = async (req, res) => {
     const { email,password } = req.body;
