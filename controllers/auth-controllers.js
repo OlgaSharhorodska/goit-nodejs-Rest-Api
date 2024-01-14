@@ -82,7 +82,7 @@ const logout = async (req, res) =>
 const updateAvatar = async (req, res) => {
   try {
     if (!req.file) {
-      throw new Error('File not transferred');
+      throw HttpError(401, 'Not authorized');
     }
 
     const { _id } = req.user;
