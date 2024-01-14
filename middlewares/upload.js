@@ -20,16 +20,18 @@ const limits = {
 }
 
 const fileFilter = (req, file, callback) => {
-    const extention = req.originalname.split('.').pop();
-    if (extention==='exe') {
-        callback(HttpError(400,".exe isn't valid extention"))
-    }
-}
+  const fileExtation = ['jpeg', 'png', 'bmp', 'tiff', "gif", "jpg"]
+    const extension = file.originalname.split(".").pop();
+    if (!fileExtation.includes(extension)) {
+    callback(HttpError(400, "Is not valid extension"));
+  }
+  callback(null, true);
+};
 
 const upload = multer({
     storage,
     limits,
-    // fileFilter
+    fileFilter
 })
 
 export default upload;

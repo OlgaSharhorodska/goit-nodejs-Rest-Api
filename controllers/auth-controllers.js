@@ -80,24 +80,33 @@ const logout = async (req, res) =>
 }
 
 const updateAvatar = async (req, res) => {
-  const { _id } = req.user;
-  const { path: tmpUpload, originalname } = req.file;
-  const filename = `${_id}_${originalname}`;
-  const resultUpload = path.join(avatarsDir, filename);
+  try {
+    if (!req.file) {
+      throw new Error('File not transferred');
+    }
 
-   await Jimp.read(tmpUpload)
-     .then((image) => image.resize(250, 250))
-    .then((image) => image.write(resultUpload));
-  
-  await fs.rename(tmpUpload, resultUpload);
-  const avatarURL = path.join('avatars', filename);
-  await User.findByIdAndUpdate(_id, { avatarURL })
-  
-  res.json({
-    avatarURL,
-  })
-}
+    const { _id } = req.user;
+    const { path: tmpUpload, originalname } = req.file;
+    const filename = `${_id}_${originalname}`;
+    const resultUpload = path.join(avatarsDir, filename);
 
+    await Jimp.read(tmpUpload)
+      .then((image) => image.resize(250, 250))
+      .then((image) => image.write(resultUpload));
+
+    await fs.unlink(tmpUpload);
+
+    const avatarURL = path.join('avatars', filename);
+    await User.findByIdAndUpdate(_id, { avatarURL });
+
+    res.json({
+      avatarURL,
+    });
+  } catch (error) {
+    // console.error('Error updating avatar:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
 
 export default {
   register: ctrlWrapper(register),
