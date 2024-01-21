@@ -12,7 +12,9 @@ import authenticate from '../../middlewares/authenticate.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema),authControllers.register)
+authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema), authControllers.register)
+
+authRouter.get('/verify/:verificationToken', authControllers.verify);
 
 authRouter.post(
   '/login',
