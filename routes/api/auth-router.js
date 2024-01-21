@@ -2,7 +2,11 @@ import express from 'express';
 
 import authControllers from '../../controllers/auth-controllers.js';
 
-import { userSignupSchema, userSigninSchema } from '../../models/User.js';
+import {
+  userSignupSchema,
+  userSigninSchema,
+  userEmailSchema,
+} from '../../models/User.js';
 
 import isEmptyBody from '../../middlewares/isEmptyBody.js';
 import isValidId from '../../middlewares/isValidId.js';
@@ -16,12 +20,9 @@ authRouter.post('/register', isEmptyBody, validateBody(userSignupSchema), authCo
 
 authRouter.get('/verify/:verificationToken', authControllers.verify);
 
-authRouter.post(
-  '/login',
-  isEmptyBody,
-  validateBody(userSigninSchema),
-  authControllers.login
-);
+authRouter.post('/verify', isEmptyBody,validateBody(userEmailSchema), authControllers.resendVerifyEmail )
+
+authRouter.post('/login', isEmptyBody, validateBody(userSigninSchema),authControllers.login);
 
 authRouter.get('/current', authenticate, authControllers.getCurrent);
 
